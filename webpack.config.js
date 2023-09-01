@@ -1,46 +1,46 @@
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CopyPlugin = require("copy-webpack-plugin");
-import webpack from 'webpack';
+const CopyPlugin = require('copy-webpack-plugin');
+const HtmlPlugin = require('html-webpack-plugin');
 
 module.exports = {
-    entry: {
-        app: './src/main.js',
-    },
-    devtool: 'inline-source-map',
-    devServer: {
-        static: './dist',
-        hot: true,
-    },
-    plugins: [
-        new HtmlWebpackPlugin({
-            title: 'Hot Module Replacement',
-        }),
-        new CopyPlugin({
-            patterns: [
-                { from: "public", to: "build" },
-            ],
-        })
+  entry: './src/main.js',
+  output: {
+    filename: 'bundle.[contenthash].js',
+    path: path.resolve(__dirname, 'build'),
+    clean: true,
+  },
+  devtool: 'source-map',
+  plugins: [
+    new HtmlPlugin({
+      template: 'public/index.html',
+    }),
+    new CopyPlugin({
+      patterns: [
+        {
+          from: 'public',
+          globOptions: {
+            ignore: ['**/index.html'],
+          },
+        },
+      ],
+    }),
+  ],
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /(node_modules)/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env']
+          },
+        },
+      },
+      {
+        test: /\.css$/i,
+        use: ['style-loader', 'css-loader']
+      },
     ],
-    output: {
-        filename: 'bundle.[contenthash].js',
-        path: path.resolve(__dirname, 'dist'),
-        clean: true,
-    },
-    module: {
-        rules: [
-            {
-                test: /\.(?:js|mjs|cjs)$/,
-                exclude: /node_modules/,
-                use: {
-                    loader: 'babel-loader',
-                    options: {
-                        presets: [
-                            ['@babel/preset-env', { targets: "defaults" }]
-                        ]
-                    }
-                }
-            }
-        ]
-    }
+  },
 };
