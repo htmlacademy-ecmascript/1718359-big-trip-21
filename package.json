@@ -4,7 +4,6 @@
   "private": true,
   "description": "Проект «Большое путешествие» от HTML Academy",
   "browserslist": "> 0.25%, not dead",
-  "type": "module",
   "scripts": {
     "lint": "eslint src/",
     "build": "webpack --mode production",
@@ -20,9 +19,9 @@
     "eslint-config-htmlacademy": "9.0.0",
     "html-webpack-plugin": "^5.5.1",
     "style-loader": "^3.3.2",
-    "webpack": "^5.79.0",
+    "webpack": "^5.88.2",
     "webpack-cli": "^5.0.1",
-    "webpack-dev-server": "^4.13.3"
+    "webpack-dev-server": "^4.15.1"
   },
   "engines": {
     "node": "18"
